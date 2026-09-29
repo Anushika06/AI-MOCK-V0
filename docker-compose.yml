@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: supertet_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-supertet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-supertet_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-supertet_db}
+    ports:
+      - "${POSTGRES_PORT:-5434}:5432"
+    volumes:
+      - supertet_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-supertet} -d ${POSTGRES_DB:-supertet_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  supertet_pgdata:
+    driver: local
