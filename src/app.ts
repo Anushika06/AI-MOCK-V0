@@ -46,6 +46,7 @@ export async function buildApp() {
   await app.register(cors, {
     origin: env.CORS_ORIGIN ? env.CORS_ORIGIN.split(',').map((s) => s.trim()) : '*',
     credentials: false,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   });
 
   // Populated by the requireUser preHandler.
