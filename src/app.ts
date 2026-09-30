@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import Fastify, { type FastifyError } from 'fastify';
 import sensible from '@fastify/sensible';
 import fastifyStatic from '@fastify/static';
+import cors from '@fastify/cors';
 import { env } from './config/env.js';
 import { registerRoutes } from './routes/index.js';
 import { AppError } from './common/errors.js';
@@ -41,6 +42,11 @@ export async function buildApp() {
 
   // @fastify/sensible adds http-errors helpers + reply.notFound() etc.
   await app.register(sensible);
+
+  await app.register(cors, {
+    origin: env.CORS_ORIGIN ? env.CORS_ORIGIN.split(',').map((s) => s.trim()) : '*',
+    credentials: false,
+  });
 
   // Populated by the requireUser preHandler.
   app.decorateRequest('appUser', null);

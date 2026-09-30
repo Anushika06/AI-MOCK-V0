@@ -34,6 +34,8 @@ const EnvSchema = z.object({
     .transform((v) => parseInt(v, 10))
     .pipe(z.number().int().min(1).max(65535)),
 
+  CORS_ORIGIN: z.string().optional(),
+
   DATABASE_URL: z
     .string()
     .url()
