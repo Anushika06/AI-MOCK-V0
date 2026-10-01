@@ -11,6 +11,12 @@ jobs:
     steps:
       - name: Ping Render backend
         run: |
-          curl --fail --silent --show-error \
-            --max-time 30 \
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --retry 3 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            --max-time 120 \
             https://ai-mock-backend-2y89.onrender.com/api/health
